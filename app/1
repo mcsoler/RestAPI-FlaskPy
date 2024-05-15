@@ -1,0 +1,23 @@
+# Usa la imagen base de Python 3.8 en Alpine Linux
+FROM python:3.8-alpine
+
+# Establece el directorio de trabajo dentro del contenedor
+WORKDIR /app
+RUN ls /etc/nginx/conf.d/
+# Copia el código de la aplicación al contenedor
+COPY . .
+#COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Instala las dependencias de Flask
+RUN apk update && apk add --no-cache nginx
+RUN apk add --no-cache curl
+RUN pip install --upgrade pip 
+RUN pip install -r requirements.txt
+
+# Expone el puerto en el que se ejecutará la aplicación Flask
+EXPOSE 80
+
+# Ejecuta la aplicación Flask
+#CMD ["python3", "app.py"]
+#CMD ["nginx", "-g", "daemon off;"]
+#CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8888", "wsgi:app"]
